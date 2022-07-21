@@ -65,6 +65,12 @@ extension SubscriptionViewController: UITableViewDelegate, UITableViewDataSource
         
         return cell
     }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let dancerDetailVC = DancerDetailViewController()
+        // ☑️ TODO: 댄서 ID 건네주어야함.
+        self.navigationController?.pushViewController(dancerDetailVC, animated: true)
+    }
 }
 
 // MARK: - Preview

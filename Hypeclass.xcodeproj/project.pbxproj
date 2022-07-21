@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0ADD3B7F288447B30074C496 /* DancerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD3B7E288447B30074C496 /* DancerDetailView.swift */; };
+		0ADD3B7F288447B30074C496 /* DancerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD3B7E288447B30074C496 /* DancerDetailViewController.swift */; };
 		97C17C86288738A300A510CA /* MainViewController+GenreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C17C85288738A300A510CA /* MainViewController+GenreCell.swift */; };
 		97C17C882888351A00A510CA /* MainViewController+DancerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C17C872888351A00A510CA /* MainViewController+DancerCell.swift */; };
 		A31C3F4428828B96005A6F6E /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31C3F4328828B96005A6F6E /* SearchBar.swift */; };
@@ -21,6 +21,7 @@
 		C039DCBA287D940F0007951D /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C039DCB9287D940F0007951D /* MainTabController.swift */; };
 		C039DCBE287D944C0007951D /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C039DCBD287D944C0007951D /* ScheduleViewController.swift */; };
 		C039DCC0287D94630007951D /* SubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C039DCBF287D94630007951D /* SubscriptionViewController.swift */; };
+		C04B1F092889257D001D2C99 /* WeeklyScheduleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04B1F082889257D001D2C99 /* WeeklyScheduleCell.swift */; };
 		C05BF1C9287BC33100C95E1B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05BF1C8287BC33100C95E1B /* AppDelegate.swift */; };
 		C05BF1CB287BC33100C95E1B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C05BF1CA287BC33100C95E1B /* SceneDelegate.swift */; };
 		C05BF1D2287BC33200C95E1B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C05BF1D1287BC33200C95E1B /* Assets.xcassets */; };
@@ -57,7 +58,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		0ADD3B7E288447B30074C496 /* DancerDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DancerDetailView.swift; sourceTree = "<group>"; };
+		0ADD3B7E288447B30074C496 /* DancerDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DancerDetailViewController.swift; sourceTree = "<group>"; };
 		97C17C85288738A300A510CA /* MainViewController+GenreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+GenreCell.swift"; sourceTree = "<group>"; };
 		97C17C872888351A00A510CA /* MainViewController+DancerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+DancerCell.swift"; sourceTree = "<group>"; };
 		A31C3F4328828B96005A6F6E /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
@@ -71,6 +72,7 @@
 		C039DCB9287D940F0007951D /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		C039DCBD287D944C0007951D /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		C039DCBF287D94630007951D /* SubscriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewController.swift; sourceTree = "<group>"; };
+		C04B1F082889257D001D2C99 /* WeeklyScheduleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeeklyScheduleCell.swift; sourceTree = "<group>"; };
 		C05BF1C5287BC33100C95E1B /* Hypeclass.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Hypeclass.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C05BF1C8287BC33100C95E1B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C05BF1CA287BC33100C95E1B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -163,7 +165,6 @@
 			children = (
 				C05BF1C7287BC33100C95E1B /* Hypeclass */,
 				C05BF1C6287BC33100C95E1B /* Products */,
-				9730C3A328885F2D0005D483 /* Recovered References */,
 			);
 			sourceTree = "<group>";
 		};
@@ -276,7 +277,8 @@
 			isa = PBXGroup;
 			children = (
 				C039DCB9287D940F0007951D /* MainTabController.swift */,
-				0ADD3B7E288447B30074C496 /* DancerDetailView.swift */,
+				0ADD3B7E288447B30074C496 /* DancerDetailViewController.swift */,
+				C04B1F082889257D001D2C99 /* WeeklyScheduleCell.swift */,
 				C039DCBC287D941E0007951D /* Schedule */,
 				C039DCBB287D941C0007951D /* Subscription */,
 				A3F1BE4D2887BB0700EEDB67 /* Search */,
@@ -370,11 +372,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0ADD3B7F288447B30074C496 /* DancerDetailView.swift in Sources */,
+				0ADD3B7F288447B30074C496 /* DancerDetailViewController.swift in Sources */,
 				C05BF1DD287BC60600C95E1B /* MainViewController.swift in Sources */,
 				C05BF1FA287BC7EF00C95E1B /* UIColor.swift in Sources */,
 				C7CE676028807C8E00C8F137 /* WeekdayCell.swift in Sources */,
 				C039DCBA287D940F0007951D /* MainTabController.swift in Sources */,
+				C04B1F092889257D001D2C99 /* WeeklyScheduleCell.swift in Sources */,
 				C07E5C8D287E6D8B00BDA46D /* DanceClass.swift in Sources */,
 				B5DB2D66288633E100703587 /* DancerCell.swift in Sources */,
 				C05BF1F7287BC7EF00C95E1B /* String.swift in Sources */,

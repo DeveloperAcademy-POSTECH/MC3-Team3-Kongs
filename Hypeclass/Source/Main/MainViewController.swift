@@ -28,30 +28,23 @@ class MainViewController: BaseViewController {
     }()
     
     private let searchButton: UIButton = {
-       var config = UIButton.Configuration.gray()
-       config.buttonSize = .large
-       config.titleAlignment = .leading
-       config.title = "댄서 또는 장르를 검색해보세요"
-       config.background = .listSidebarCell()
-       config.image = UIImage(systemName: "magnifyingglass")
-       config.imagePadding = 4
-       config.imagePlacement = .leading
-       
-       config.baseForegroundColor = UIColor(hex: 0x7A7A7A)
-       config.baseBackgroundColor = UIColor(hex: 0x2D2C38)
-       
-       let button = UIButton (
-           configuration: config, primaryAction: UIAction( handler: { _ in
-           print("MainViewController -> SearchViewController")
-           // TODO: searchView 연결
-//            let searchViewController = SearchViewController()
-//            UINavigationController?.pushViewController(searchViewController, animated: true)
-           })
-       )
-       button.contentHorizontalAlignment = .leading
-       button.translatesAutoresizingMaskIntoConstraints = false
-       return button
-   }()
+        var config = UIButton.Configuration.gray()
+        config.buttonSize = .large
+        config.titleAlignment = .leading
+        config.title = "댄서 또는 장르를 검색해보세요"
+        config.background = .listSidebarCell()
+        config.image = UIImage(systemName: "magnifyingglass")
+        config.imagePadding = 4
+        config.imagePlacement = .leading
+        config.baseForegroundColor = UIColor(hex: 0x7A7A7A)
+        config.baseBackgroundColor = UIColor(hex: 0x2D2C38)
+        
+        let button = UIButton(configuration: config)
+        button.addTarget(self, action: #selector(searchButtonDidTap), for: .touchUpInside)
+        button.contentHorizontalAlignment = .leading
+        button.translatesAutoresizingMaskIntoConstraints = false
+        return button
+    }()
     
     private let genreView: UIStackView = {
         let view = UIStackView()
@@ -95,6 +88,7 @@ class MainViewController: BaseViewController {
         view.clipsToBounds = true
         view.register(MainViewControllerGenreCell.self, forCellWithReuseIdentifier: MainViewControllerGenreCell.id)
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.contentInset = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)
         return view
     }()
     
@@ -126,6 +120,7 @@ class MainViewController: BaseViewController {
     
     private lazy var dancerRecommendationCollectionView: UICollectionView = {
         let view = UICollectionView(frame: .zero, collectionViewLayout: self.dancerRecommendationFlowLayout)
+        view.backgroundColor = .clear
         view.isScrollEnabled = true
         view.showsHorizontalScrollIndicator = false
         view.showsVerticalScrollIndicator = true
@@ -133,6 +128,7 @@ class MainViewController: BaseViewController {
         view.clipsToBounds = true
         view.register(MainViewControllerDancerCell.self, forCellWithReuseIdentifier: MainViewControllerDancerCell.id)
         view.translatesAutoresizingMaskIntoConstraints = false
+        view.contentInset = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 0)
         return view
     }()
 
@@ -141,9 +137,16 @@ class MainViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        registerDataSource()
+        configureCollectionView()
     }
+    
     // MARK: - Selectors
+    
+    @objc func searchButtonDidTap() {
+        let searchVC = SearchViewController()
+        self.navigationController?.pushViewController(searchVC, animated: true)
+    }
+    
     // MARK: - Helpers
     private func configureUI() {
         view.addSubview(headerView)
@@ -165,27 +168,31 @@ class MainViewController: BaseViewController {
             headerView.rightAnchor.constraint(equalTo: safeArea.rightAnchor, constant: -25),
        ])
         NSLayoutConstraint.activate([
-            genreView.leftAnchor.constraint(equalTo: safeArea.leftAnchor, constant: 25),
+            genreView.leftAnchor.constraint(equalTo: safeArea.leftAnchor),
             genreView.rightAnchor.constraint(equalTo: safeArea.rightAnchor),
             genreView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 180),
             genreView.heightAnchor.constraint(equalToConstant: 150),
        ])
         // 326 464
         NSLayoutConstraint.activate([
-            dancerRecommendationView.leftAnchor.constraint(equalTo: safeArea.leftAnchor, constant: 25),
+            dancerRecommendationView.leftAnchor.constraint(equalTo: safeArea.leftAnchor),
             dancerRecommendationView.rightAnchor.constraint(equalTo: safeArea.rightAnchor),
             dancerRecommendationView.topAnchor.constraint(equalTo: safeArea.topAnchor, constant: 365),
             dancerRecommendationView.heightAnchor.constraint(equalToConstant: 250),
        ])
     }
     
-    private func registerDataSource() {
+    private func configureCollectionView() {
         genreCollectionView.dataSource = self
+        genreCollectionView.delegate = self
         dancerRecommendationCollectionView.dataSource = self
+        dancerRecommendationCollectionView.delegate = self
     }
 }
 
-extension MainViewController: UICollectionViewDataSource {
+// MARK: - UICollectionViewDataSource, Delegate
+
+extension MainViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         switch collectionView {
             case genreCollectionView:
@@ -209,6 +216,22 @@ extension MainViewController: UICollectionViewDataSource {
                return cell
             default:
                 return UICollectionViewCell()
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        // TODO: ViewController 간 이동
+        switch collectionView {
+        case genreCollectionView:
+            let searchDetailVC = SearchDetailViewController()
+            // ☑️ TODO: 검색 키워드 건네주어야함
+            self.navigationController?.pushViewController(searchDetailVC, animated: true)
+        case dancerRecommendationCollectionView:
+            let dancerDetailVC = DancerDetailViewController()
+            // ☑️ TODO: 댄서 ID 건네주어야함.
+            self.navigationController?.pushViewController(dancerDetailVC, animated: true)
+        default:
+            return
         }
     }
 }

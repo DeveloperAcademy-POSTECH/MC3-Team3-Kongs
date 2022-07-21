@@ -142,6 +142,11 @@ class ScheduleViewController: BaseViewController {
     @objc func pushDetailView(_ sender: UITapGestureRecognizer) {
         // TODO: push detailViewController
         print("pushDetailView(): \(sender.view!.tag)")
+        let dancerDetailVC = DancerDetailViewController()
+        guard let dancerID = sender.view?.tag else { return }
+        dancerDetailVC.dancerID = String(dancerID)
+        self.navigationController?.pushViewController(dancerDetailVC, animated: true)
+        
     }
     
     // MARK: - Helpers

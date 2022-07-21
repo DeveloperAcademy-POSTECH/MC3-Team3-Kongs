@@ -97,8 +97,9 @@ extension SearchDetailViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        // DancerDetail View 호출
-        print(searchResult[indexPath.row].id)
+        let dancerDetailVC = DancerDetailViewController()
+        // ☑️ TODO: 댄서 ID 건네주어야함.
+        self.navigationController?.pushViewController(dancerDetailVC, animated: true)
     }
 }
 
