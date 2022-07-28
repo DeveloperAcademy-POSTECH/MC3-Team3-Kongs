@@ -33,6 +33,13 @@ class SearchViewController: BaseViewController {
         return cv
     }()
     
+    let recommendTable: UITableView = {
+        let table = UITableView()
+        table.backgroundColor = .clear
+        
+        return table
+    }()
+    
     let historyCellID = "history"
     
     var historyList = [String]()
@@ -46,6 +53,15 @@ class SearchViewController: BaseViewController {
         configureSearchBar()
         configureHistoryCollection()
     }
+    
+    let recommandTitle: UILabel = {
+        let label = UILabel()
+        label.text = "이런 댄서는 어때요?"
+        label.textColor = .white
+        label.font = UIFont.systemFont(ofSize: 20, weight: .semibold)
+        
+        return label
+    }()
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -89,6 +105,19 @@ class SearchViewController: BaseViewController {
         historyCollectionView.leadingAnchor.constraint(equalTo: historyTitle.leadingAnchor).isActive = true
         historyCollectionView.heightAnchor.constraint(equalToConstant: 25).isActive = true
         historyCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -13).isActive = true
+        
+        self.view.addSubview(recommandTitle)
+        recommandTitle.translatesAutoresizingMaskIntoConstraints = false
+        recommandTitle.topAnchor.constraint(equalTo: historyCollectionView.bottomAnchor, constant: 38).isActive = true
+        recommandTitle.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 27).isActive = true
+        
+
+        self.view.addSubview(recommendTable)
+        recommendTable.translatesAutoresizingMaskIntoConstraints = false
+        recommendTable.topAnchor.constraint(equalTo: recommandTitle.bottomAnchor, constant: 13).isActive = true
+        recommendTable.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        recommendTable.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor).isActive = true
+        recommendTable.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
     }
     
     func configureNavigationBarUI() {
@@ -103,6 +132,11 @@ class SearchViewController: BaseViewController {
     
     // Navigation 화면 전환
     func pushSearchDetailView(_ searchText: String) {
+        // async - await 함수 호출 방법 ( 추후 View 작업시 삭제할 내용 )
+//        async {
+//            print(try await SearchManager.shared.requestSearchStudio(studioSearch: "Aca"))
+//        }
+        
         let searchDetailVC = SearchDetailViewController()
         searchDetailVC.searchLabel.text = searchText
         self.navigationController?.pushViewController(searchDetailVC, animated: true)
@@ -169,6 +203,32 @@ extension SearchViewController: UICollectionViewDataSource {
 extension SearchViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         pushSearchDetailView(historyList[indexPath.row])
+    }
+}
+
+//MARK: - TableView Extension
+
+extension SearchViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 116
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let dancerDetailVC = DancerDetailViewController()
+        // ☑️ TODO: 댄서 ID 건네주어야함.
+        self.navigationController?.pushViewController(dancerDetailVC, animated: true)
+    }
+}
+
+extension SearchViewController: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        // 추천 알고리즘에 따른 추천 데이터 갯수 반환
+        return 5
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        // Cell 반환 추천 데이터 -> 추천 알고리즘 논의
+        return UITableViewCell()
     }
 }
 

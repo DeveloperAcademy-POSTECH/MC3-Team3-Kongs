@@ -6,7 +6,10 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 class Constant {
-    
+    static let dancerRef = Firestore.firestore().collection("dancer")
+    static let danceClassRef = Firestore.firestore().collection("danceClass")
+    static let studioRef = Firestore.firestore().collection("studio")
 }

@@ -9,10 +9,9 @@ import Foundation
 
 struct Studio: Codable {
     let id: String
-    let name: String
+    let name: String?
     let description: String?
     let instagramURL: String?
     let youtubeURL: String?
-//    let tags: [String]
-    let classes: [DanceClass]
+    let dancers: [String]?
 }

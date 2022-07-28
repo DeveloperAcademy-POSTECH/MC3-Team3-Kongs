@@ -9,20 +9,27 @@ import Foundation
 
 struct DanceClass: Codable {
     let id: String
-    let name: String
+    let name: String?
+    let genres: [String]?
     let description: String?
-    let isPopUp: Bool
-//    let tags: [String]
+    let isPopUp: Bool?
     
     // time
-    let startTime: Date
-    let endTime: Date
+    let startTime: Date?
+    let endTime: Date?
     
     //dancer
-    let dancerID: String
-    let dancerName: String
+    let dancerID: String?
+    let dancerName: String?
     
     //studio
-    let studioID: String
-    let studioName: String
+    let studioID: String?
+    let studioName: String?
 }
+
+/*
+
+ 
+제거
+ 
+ */

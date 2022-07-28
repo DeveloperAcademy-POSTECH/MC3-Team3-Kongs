@@ -30,7 +30,7 @@ class ScheduleViewController: BaseViewController {
     }()
     
     private var selectedDate = Date()
-
+    
     private let weekCellID = "week"
     
     private let weekCollectionView: UICollectionView = {
@@ -38,18 +38,11 @@ class ScheduleViewController: BaseViewController {
         layout.minimumLineSpacing = 11
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .background
-
+        
         return cv
     }()
     
-
-    // TODO: 재사용 Separator로 교체
-    private let separator: UIView = {
-        let line = UIView()
-        line.backgroundColor = .gray
-        
-        return line
-    }()
+    private let separator = Separator()
     
     private let previousButton: UIButton = {
         var config = UIButton.Configuration.plain()
@@ -75,7 +68,7 @@ class ScheduleViewController: BaseViewController {
         return btn
     }()
     
-    private let stackViews: [UIStackView] = [
+    private var stackViews: [UIStackView] = [
         UIStackView(), UIStackView(), UIStackView(), UIStackView(), UIStackView(), UIStackView(), UIStackView()
     ]
     
@@ -87,21 +80,16 @@ class ScheduleViewController: BaseViewController {
         layout.scrollDirection = .horizontal
         cv.backgroundColor = .background
         cv.showsHorizontalScrollIndicator = false
-
+        
         return cv
     }()
     
-    private let myDancers: [Dancer?] = {
-        let subscriptionIDs = UserDefaults.standard.stringArray(forKey: "SubscribedDancers") ?? ["2364236487", "0768035155", "3947665830"]
-        let dancers = MockDataSet.dancers.filter { subscriptionIDs.contains($0.id) }
-        return dancers
-    }()
-
+    private let subscriptionIDs = UserDefaults.standard.stringArray(forKey: "SubscribedDancers") ?? ["CDF787F4-5AD7-4138-AE13-F96DEF538E0D", "2EB613FC-956E-482F-80C1-DAC47C543729", "F77D3855-2CE5-468D-B702-8C9AA521461B"]
+    
     private var weekSchedules: [[DanceClass]] = [
         [], [], [], [], [], [], []
     ]
     
-
     private var scheduleViewWidth: CGFloat = 0
     
     // MARK: - LifeCycle
@@ -114,20 +102,18 @@ class ScheduleViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        reloadViews()
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
     
-
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        reloadViews()
     }
     
-
     // MARK: - Selectors
     
     /// 지난 주 날짜의 weekdayView로 변경합니다.
@@ -144,8 +130,11 @@ class ScheduleViewController: BaseViewController {
     
     /// 댄서 디테일 뷰 페이지로 이동합니다.
     @objc func pushDetailView(_ sender: UITapGestureRecognizer) {
-        // TODO: push detailViewController
-        print("pushDetailView(): \(sender.view!.tag)")
+            print("pushDetailView(): \(sender.view!.accessibilityLabel!)")
+            let dancerDetailVC = DancerDetailViewController()
+            guard let dancerID = sender.view?.accessibilityLabel else { return }
+            dancerDetailVC.dancerID = dancerID
+            self.navigationController?.pushViewController(dancerDetailVC, animated: true)
     }
     
     // MARK: - Helpers
@@ -164,7 +153,6 @@ class ScheduleViewController: BaseViewController {
         monthLabel.leadingAnchor.constraint(equalTo: monthNumberLabel.trailingAnchor).isActive = true
         
         // < > 버튼
-
         view.addSubview(nextButton)
         nextButton.translatesAutoresizingMaskIntoConstraints = false
         nextButton.topAnchor.constraint(equalTo: monthNumberLabel.topAnchor).isActive = true
@@ -179,7 +167,7 @@ class ScheduleViewController: BaseViewController {
         weekCollectionView.register(WeekdayCell.self, forCellWithReuseIdentifier: weekCellID)
         weekCollectionView.dataSource = self
         weekCollectionView.delegate = self
-
+        
         view.addSubview(weekCollectionView)
         weekCollectionView.translatesAutoresizingMaskIntoConstraints = false
         weekCollectionView.topAnchor.constraint(equalTo: monthNumberLabel.bottomAnchor, constant: 45).isActive = true
@@ -194,12 +182,12 @@ class ScheduleViewController: BaseViewController {
         separator.topAnchor.constraint(equalTo: weekCollectionView.topAnchor).isActive = true
         separator.bottomAnchor.constraint(equalTo: weekCollectionView.bottomAnchor).isActive = true
         separator.widthAnchor.constraint(equalToConstant: 0.5).isActive = true
-
+        
         // scheduleCollectionView
         scheduleCollectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: scheduleCellID)
         scheduleCollectionView.dataSource = self
         scheduleCollectionView.delegate = self
-
+        
         view.addSubview(scheduleCollectionView)
         scheduleCollectionView.translatesAutoresizingMaskIntoConstraints = false
         scheduleCollectionView.contentInset = UIEdgeInsets(top: 0, left: 19, bottom: 0, right: 0)
@@ -210,35 +198,35 @@ class ScheduleViewController: BaseViewController {
     }
     
     /// 클래스 데이터를 이용해 StackView에 각각 해당하는 ScheduleView를 추가합니다.
-    private func addScheduleToStackView() {
-
-        fetchSchedules()
+    private func addScheduleToStackView() async {
+        await fetchSchedules()
         
         stackViews.enumerated().forEach{
-            let stackView = $0.1
-            stackView.subviews.forEach{ subView in
+            $0.1.subviews.forEach{ subView in
                 subView.removeFromSuperview()
             }
             
+            let stackView = UIStackView()
             stackView.translatesAutoresizingMaskIntoConstraints = false
             stackView.axis = .horizontal
             stackView.spacing = 15
             stackView.distribution = .equalSpacing
+            stackViews[$0.0] = stackView
             
             weekSchedules[$0.0].forEach { schedule in
                 let dancerName = schedule.dancerName
                 let studioName = schedule.studioName
-                let startTime = "\(schedule.startTime.get(.hour)):\(schedule.startTime.get(.minute))"
-                let endTime = "\(schedule.endTime.get(.hour)):\(schedule.endTime.get(.minute))"
-
+                let startTime = "\(schedule.startTime!.get(.hour)):\(schedule.startTime!.get(.minute))"
+                let endTime = "\(schedule.endTime!.get(.hour)):\(schedule.endTime!.get(.minute))"
+                
                 scheduleViewWidth = (scheduleCollectionView.frame.width - 15) / 2
-                let scheduleView = ScheduleView(frame: .zero, dancerName: dancerName, studioName: studioName, startTime: startTime, endTime: endTime, viewWidth: scheduleViewWidth)
+                let scheduleView = ScheduleView(frame: .zero, dancerName: dancerName ?? "", studioName: studioName ?? "", startTime: startTime, endTime: endTime, viewWidth: scheduleViewWidth)
                 scheduleView.translatesAutoresizingMaskIntoConstraints = false
                 scheduleView.widthAnchor.constraint(equalToConstant: scheduleViewWidth).isActive = true
                 scheduleView.heightAnchor.constraint(equalToConstant: scheduleCollectionView.frame.height / 8).isActive = true
                 
                 scheduleView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.pushDetailView(_:))))
-                scheduleView.tag = Int(schedule.dancerID)!
+                scheduleView.accessibilityLabel = schedule.dancerID ?? ""
                 
                 stackView.addArrangedSubview(scheduleView)
             }
@@ -248,27 +236,38 @@ class ScheduleViewController: BaseViewController {
     /// ScheduleViewController에서 변경되는 뷰를 다시 로드합니다.
     private func reloadViews() {
         monthNumberLabel.text = selectedDate.monthString()
-        addScheduleToStackView()
-        scheduleCollectionView.reloadData()
         weekCollectionView.reloadData()
+        Task {
+            await addScheduleToStackView()
+            scheduleCollectionView.reloadData()
+        }
     }
-
+    
     /// 날짜에 맞는 DanceClass를 각각 배열에 넣어줍니다.
-    private func fetchSchedules() {
+    private func fetchSchedules() async {
         let monday = selectedDate.mondayInWeek(at: selectedDate.get(.weekday))
         let cal = Calendar.current
-
+        
         for idx in 0...6 {
             let date = cal.date(byAdding: .day, value: idx, to: monday)
             weekSchedules[idx] = []
-
-            myDancers.forEach { dancer in
-                let dancerSchedules = dancer?.schedules.filter { cal.isDate(date!, inSameDayAs: $0.startTime) }
-                dancerSchedules?.forEach { schedule in
+            
+            do {
+                if DanceClassManager.myClasses == nil {
+                    IndicatorView.shared.show()
+                    IndicatorView.shared.showIndicator()
+                    DanceClassManager.myClasses = try await DanceClassManager.shared.requestDanceClassesBy(dancerIDs: subscriptionIDs)
+                    IndicatorView.shared.dismiss()
+                }
+                let dancerSchedules = DanceClassManager.myClasses!.filter { cal.isDate(date!, inSameDayAs: $0.startTime!) }
+                dancerSchedules.forEach { schedule in
                     weekSchedules[idx].append(schedule)
                 }
+                weekSchedules[idx] = weekSchedules[idx].sorted(by: { $0.startTime! < $1.startTime! })
             }
-            weekSchedules[idx] = weekSchedules[idx].sorted(by: { $0.startTime < $1.startTime })
+            catch {
+                print(error)
+            }
         }
     }
 }
@@ -288,7 +287,7 @@ extension ScheduleViewController: UICollectionViewDataSource {
             return cell
         }
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return 7
     }
@@ -305,7 +304,7 @@ extension ScheduleViewController: UICollectionViewDelegateFlowLayout {
         } else {
             return CGSize(width: 30, height: (collectionView.frame.height / 8))
         }
-   }
+    }
 }
 
 // MARK: - Preview
@@ -314,11 +313,11 @@ import SwiftUI
 
 struct ScheduleViewControllerRepresentable: UIViewControllerRepresentable {
     typealias UIViewControllerType = ScheduleViewController
-
+    
     func makeUIViewController(context: Context) -> ScheduleViewController {
         return ScheduleViewController()
     }
-
+    
     func updateUIViewController(_ uiViewController: ScheduleViewController, context: Context) {}
 }
 

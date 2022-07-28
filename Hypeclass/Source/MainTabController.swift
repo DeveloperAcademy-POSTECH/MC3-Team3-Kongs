@@ -24,7 +24,7 @@ class MainTabController: UITabBarController {
     
     //MARK: - Helpers
     func configureViewControllers() {
-        let main = ViewController()
+        let main = MainViewController()
         main.tabBarItem = UITabBarItem(title: "홈", image: UIImage(systemName: "house"), tag: 0)
         let schedule = ScheduleViewController()
         schedule.tabBarItem = UITabBarItem(title: "스케쥴", image: UIImage(systemName: "calendar"), tag: 1)
