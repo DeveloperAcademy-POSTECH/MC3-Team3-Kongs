@@ -2,6 +2,7 @@
 # Edit at https://www.toptal.com/developers/gitignore?templates=xcode,swift,macos
 
 Secrets/
+Secret.swift
 
 ### macOS ###
 # General

@@ -12,7 +12,7 @@ class DancerDetailSchduleManager {
     
     func makeDancerData() {
         dancerScheduleDataArray = [
-            DancerDetailScheduleModel(studioLabel: "1 Million", startTimeLabel: "22:00", endTimeLabel: "24:00"),
+            DancerDetailScheduleModel(studioLabel: "왜안되지", startTimeLabel: "22:00", endTimeLabel: "24:00"),
             DancerDetailScheduleModel(studioLabel: "호진스튜디오", startTimeLabel: "22:00", endTimeLabel: "24:00"),
             DancerDetailScheduleModel(studioLabel: "justjerk", startTimeLabel: "22:00", endTimeLabel: "24:00"),
             DancerDetailScheduleModel(studioLabel: "1 Million", startTimeLabel: "22:00", endTimeLabel: "24:00"),
