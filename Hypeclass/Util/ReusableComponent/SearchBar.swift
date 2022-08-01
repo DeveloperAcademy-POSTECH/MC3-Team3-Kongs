@@ -17,7 +17,7 @@ class SearchBar: UISearchBar {
         self.tintColor = .white
         self.searchTextField.font = UIFont.systemFont(ofSize: 12.0)
         self.searchTextField.textColor = .white
-        self.searchTextField.backgroundColor = .searchBarBackground
+        self.searchTextField.backgroundColor = .container
         self.searchTextField.leftViewMode = .never
         self.returnKeyType = .google
     }

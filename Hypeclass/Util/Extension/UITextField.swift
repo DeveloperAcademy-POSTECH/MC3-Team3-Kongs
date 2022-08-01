@@ -48,7 +48,7 @@ extension UITextField {
             let flexSpace = UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil)
             let done: UIBarButtonItem = UIBarButtonItem(title:  NSLocalizedString("keyboard_close", comment: ""), style: .done, target: self, action: #selector(self.doneButtonAction))
             done.title = "닫기"
-            done.tintColor = .black
+            done.tintColor = .white
             let items = [flexSpace, done]
             doneToolbar.items = items
             doneToolbar.sizeToFit()

@@ -21,6 +21,8 @@
 		A38A6E552890043B007982CF /* SearchManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A38A6E542890043B007982CF /* SearchManager.swift */; };
 		A3F1480D28882CA90025B822 /* UIImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3F1480C28882CA90025B822 /* UIImageView.swift */; };
 		B5DB2D66288633E100703587 /* DancerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B5DB2D65288633E100703587 /* DancerCell.swift */; };
+		C011CF4628940446001E6AD1 /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C011CF4528940446001E6AD1 /* AuthManager.swift */; };
+		C011CF4828940480001E6AD1 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = C011CF4728940480001E6AD1 /* FirebaseAuth */; };
 		C039DCBA287D940F0007951D /* MainTabController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C039DCB9287D940F0007951D /* MainTabController.swift */; };
 		C039DCBE287D944C0007951D /* ScheduleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C039DCBD287D944C0007951D /* ScheduleViewController.swift */; };
 		C039DCC0287D94630007951D /* SubscriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C039DCBF287D94630007951D /* SubscriptionViewController.swift */; };
@@ -60,6 +62,13 @@
 		C07E5C91287E707200BDA46D /* Genre.swift in Sources */ = {isa = PBXBuildFile; fileRef = C07E5C90287E707200BDA46D /* Genre.swift */; };
 		C08A10B22883BCC1009A38E7 /* MockDataSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C08A10B12883BCC1009A38E7 /* MockDataSet.swift */; };
 		C0A9D9BC288FAF15007493A2 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = C0A9D9BB288FAF15007493A2 /* FirebaseFirestoreSwift */; };
+		C0C444FC2894495D00036ADE /* AuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C444FB2894495D00036ADE /* AuthViewController.swift */; };
+		C0C444FE28944DE200036ADE /* ContainerTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C444FD28944DE200036ADE /* ContainerTextField.swift */; };
+		C0C445002894EE1300036ADE /* AuthPhoneNumberViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C444FF2894EE1200036ADE /* AuthPhoneNumberViewController.swift */; };
+		C0C445022894F0DF00036ADE /* AuthVerificationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C445012894F0DF00036ADE /* AuthVerificationController.swift */; };
+		C0C44504289529F700036ADE /* DanceClassDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C44503289529F700036ADE /* DanceClassDetailViewController.swift */; };
+		C0C7B28728944044003FA2C2 /* AuthOnboardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C7B28628944044003FA2C2 /* AuthOnboardViewController.swift */; };
+		C0C7B28928944395003FA2C2 /* CTAButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0C7B28828944395003FA2C2 /* CTAButton.swift */; };
 		C76C91C6289143C100703CCD /* ItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76C91C5289143C100703CCD /* ItemCell.swift */; };
 		C76C91CA2893C0BE00703CCD /* MainStudioCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C76C91C92893C0BE00703CCD /* MainStudioCell.swift */; };
 		C7CE676028807C8E00C8F137 /* WeekdayCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C7CE675F28807C8E00C8F137 /* WeekdayCell.swift */; };
@@ -85,6 +94,7 @@
 		A38A6E542890043B007982CF /* SearchManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchManager.swift; sourceTree = "<group>"; };
 		A3F1480C28882CA90025B822 /* UIImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIImageView.swift; sourceTree = "<group>"; };
 		B5DB2D65288633E100703587 /* DancerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DancerCell.swift; sourceTree = "<group>"; };
+		C011CF4528940446001E6AD1 /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		C039DCB9287D940F0007951D /* MainTabController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabController.swift; sourceTree = "<group>"; };
 		C039DCBD287D944C0007951D /* ScheduleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleViewController.swift; sourceTree = "<group>"; };
 		C039DCBF287D94630007951D /* SubscriptionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionViewController.swift; sourceTree = "<group>"; };
@@ -123,6 +133,13 @@
 		C07E5C8E287E6D9A00BDA46D /* Studio.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Studio.swift; sourceTree = "<group>"; };
 		C07E5C90287E707200BDA46D /* Genre.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Genre.swift; sourceTree = "<group>"; };
 		C08A10B12883BCC1009A38E7 /* MockDataSet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockDataSet.swift; sourceTree = "<group>"; };
+		C0C444FB2894495D00036ADE /* AuthViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewController.swift; sourceTree = "<group>"; };
+		C0C444FD28944DE200036ADE /* ContainerTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerTextField.swift; sourceTree = "<group>"; };
+		C0C444FF2894EE1200036ADE /* AuthPhoneNumberViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPhoneNumberViewController.swift; sourceTree = "<group>"; };
+		C0C445012894F0DF00036ADE /* AuthVerificationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthVerificationController.swift; sourceTree = "<group>"; };
+		C0C44503289529F700036ADE /* DanceClassDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DanceClassDetailViewController.swift; sourceTree = "<group>"; };
+		C0C7B28628944044003FA2C2 /* AuthOnboardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthOnboardViewController.swift; sourceTree = "<group>"; };
+		C0C7B28828944395003FA2C2 /* CTAButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CTAButton.swift; sourceTree = "<group>"; };
 		C76C91C5289143C100703CCD /* ItemCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemCell.swift; sourceTree = "<group>"; };
 		C76C91C92893C0BE00703CCD /* MainStudioCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainStudioCell.swift; sourceTree = "<group>"; };
 		C7CE675F28807C8E00C8F137 /* WeekdayCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayCell.swift; sourceTree = "<group>"; };
@@ -141,6 +158,7 @@
 				C040218C287EB8DB009D9083 /* FirebaseFirestore in Frameworks */,
 				C040218E287EB8DB009D9083 /* FirebaseStorage in Frameworks */,
 				C0A9D9BC288FAF15007493A2 /* FirebaseFirestoreSwift in Frameworks */,
+				C011CF4828940480001E6AD1 /* FirebaseAuth in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -154,6 +172,8 @@
 				A31C3F462882AC38005A6F6E /* Separator.swift */,
 				C05BF1FC287BC88400C95E1B /* IndicatorView.swift */,
 				C76C91C5289143C100703CCD /* ItemCell.swift */,
+				C0C7B28828944395003FA2C2 /* CTAButton.swift */,
+				C0C444FD28944DE200036ADE /* ContainerTextField.swift */,
 			);
 			path = ReusableComponent;
 			sourceTree = "<group>";
@@ -288,6 +308,7 @@
 				C7CE67D4288FD2F900C8F137 /* DanceClassManager.swift */,
 				C7CE67D6288FD30900C8F137 /* StudioManager.swift */,
 				A38A6E542890043B007982CF /* SearchManager.swift */,
+				C011CF4528940446001E6AD1 /* AuthManager.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -312,6 +333,7 @@
 		C05BF20A287BCF7F00C95E1B /* Source */ = {
 			isa = PBXGroup;
 			children = (
+				C0C7B2852894402D003FA2C2 /* Auth */,
 				C039DCB9287D940F0007951D /* MainTabController.swift */,
 				0ADD3B7E288447B30074C496 /* DancerDetailViewController.swift */,
 				C04B1F082889257D001D2C99 /* WeeklyScheduleCell.swift */,
@@ -319,6 +341,7 @@
 				C039DCBB287D941C0007951D /* Subscription */,
 				A3F1BE4D2887BB0700EEDB67 /* Search */,
 				C05BF20B287BCF9A00C95E1B /* Main */,
+				C0C44503289529F700036ADE /* DanceClassDetailViewController.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";
@@ -341,6 +364,17 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		C0C7B2852894402D003FA2C2 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				C0C7B28628944044003FA2C2 /* AuthOnboardViewController.swift */,
+				C0C444FB2894495D00036ADE /* AuthViewController.swift */,
+				C0C444FF2894EE1200036ADE /* AuthPhoneNumberViewController.swift */,
+				C0C445012894F0DF00036ADE /* AuthVerificationController.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -361,6 +395,7 @@
 				C040218B287EB8DB009D9083 /* FirebaseFirestore */,
 				C040218D287EB8DB009D9083 /* FirebaseStorage */,
 				C0A9D9BB288FAF15007493A2 /* FirebaseFirestoreSwift */,
+				C011CF4728940480001E6AD1 /* FirebaseAuth */,
 			);
 			productName = Hypeclass;
 			productReference = C05BF1C5287BC33100C95E1B /* Hypeclass.app */;
@@ -434,6 +469,7 @@
 				C7CE676028807C8E00C8F137 /* WeekdayCell.swift in Sources */,
 				C039DCBA287D940F0007951D /* MainTabController.swift in Sources */,
 				C04B1F092889257D001D2C99 /* WeeklyScheduleCell.swift in Sources */,
+				C0C7B28728944044003FA2C2 /* AuthOnboardViewController.swift in Sources */,
 				C07E5C8D287E6D8B00BDA46D /* DanceClass.swift in Sources */,
 				B5DB2D66288633E100703587 /* DancerCell.swift in Sources */,
 				C05BF1F7287BC7EF00C95E1B /* String.swift in Sources */,
@@ -443,10 +479,12 @@
 				97C17C86288738A300A510CA /* MainViewController+GenreCell.swift in Sources */,
 				C05BF203287BC99A00C95E1B /* BaseViewController.swift in Sources */,
 				C05BF1CB287BC33100C95E1B /* SceneDelegate.swift in Sources */,
+				C0C444FC2894495D00036ADE /* AuthViewController.swift in Sources */,
 				C05BF209287BCAD900C95E1B /* Dancer.swift in Sources */,
 				C039DCBE287D944C0007951D /* ScheduleViewController.swift in Sources */,
 				C7CE67D3288FD2EA00C8F137 /* DancerManager.swift in Sources */,
 				C05BF1F3287BC7EF00C95E1B /* UIView.swift in Sources */,
+				C0C445022894F0DF00036ADE /* AuthVerificationController.swift in Sources */,
 				C05BF1FD287BC88400C95E1B /* IndicatorView.swift in Sources */,
 				C05BF1F4287BC7EF00C95E1B /* UIFont.swift in Sources */,
 				A38A4C57287E97B900614E94 /* SearchViewController.swift in Sources */,
@@ -463,9 +501,12 @@
 				C7CE67D7288FD30900C8F137 /* StudioManager.swift in Sources */,
 				C07E5C91287E707200BDA46D /* Genre.swift in Sources */,
 				C76C91CA2893C0BE00703CCD /* MainStudioCell.swift in Sources */,
+				C0C445002894EE1300036ADE /* AuthPhoneNumberViewController.swift in Sources */,
 				C05BF1F8287BC7EF00C95E1B /* UIImage.swift in Sources */,
 				C7CE676228814D3C00C8F137 /* Weekday.swift in Sources */,
+				C0C444FE28944DE200036ADE /* ContainerTextField.swift in Sources */,
 				C7CE67D5288FD2F900C8F137 /* DanceClassManager.swift in Sources */,
+				C0C44504289529F700036ADE /* DanceClassDetailViewController.swift in Sources */,
 				A37F02C7288842640027D3FC /* SearchDetailCell.swift in Sources */,
 				A3F1480D28882CA90025B822 /* UIImageView.swift in Sources */,
 				C039DCC0287D94630007951D /* SubscriptionViewController.swift in Sources */,
@@ -475,6 +516,8 @@
 				A38A4C59287E97CF00614E94 /* SearchDetailViewController.swift in Sources */,
 				A35DE3A128840A2E00A29BA7 /* HistoryCell.swift in Sources */,
 				C05BF1F5287BC7EF00C95E1B /* UIButton.swift in Sources */,
+				C0C7B28928944395003FA2C2 /* CTAButton.swift in Sources */,
+				C011CF4628940446001E6AD1 /* AuthManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -703,6 +746,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		C011CF4728940480001E6AD1 /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = C040218A287EB8DB009D9083 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
 		C040218B287EB8DB009D9083 /* FirebaseFirestore */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = C040218A287EB8DB009D9083 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
