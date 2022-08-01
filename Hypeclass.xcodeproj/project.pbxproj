@@ -7,9 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0A6D547528928013006CAAD2 /* ThumbNailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0A6D547428928013006CAAD2 /* ThumbNailCell.swift */; };
 		0AA1E7DE288EE32A00AC0CE9 /* DancerDetailScheduleModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA1E7DD288EE32A00AC0CE9 /* DancerDetailScheduleModel.swift */; };
 		0AA1E7E0288EE3F600AC0CE9 /* DancerDetailSchduleManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA1E7DF288EE3F600AC0CE9 /* DancerDetailSchduleManager.swift */; };
+		0AA1E7E228912D7C00AC0CE9 /* Secret.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA1E7E128912D7C00AC0CE9 /* Secret.swift */; };
+		0AA1E8172891A16B00AC0CE9 /* YoutubeModelAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AA1E8162891A16B00AC0CE9 /* YoutubeModelAPI.swift */; };
+		0AC006392891BFCF00241DFA /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AC006382891BFCF00241DFA /* NetworkError.swift */; };
 		0ADD3B7F288447B30074C496 /* DancerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ADD3B7E288447B30074C496 /* DancerDetailViewController.swift */; };
+		0AEF1FFA2891BA21000E6E06 /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AEF1FF92891BA21000E6E06 /* NetworkManager.swift */; };
 		97C17C86288738A300A510CA /* MainViewController+GenreCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C17C85288738A300A510CA /* MainViewController+GenreCell.swift */; };
 		97C17C882888351A00A510CA /* MainViewController+DancerCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97C17C872888351A00A510CA /* MainViewController+DancerCell.swift */; };
 		A31C3F4428828B96005A6F6E /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A31C3F4328828B96005A6F6E /* SearchBar.swift */; };
@@ -60,9 +65,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0A6D547428928013006CAAD2 /* ThumbNailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThumbNailCell.swift; sourceTree = "<group>"; };
 		0AA1E7DD288EE32A00AC0CE9 /* DancerDetailScheduleModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DancerDetailScheduleModel.swift; sourceTree = "<group>"; };
 		0AA1E7DF288EE3F600AC0CE9 /* DancerDetailSchduleManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DancerDetailSchduleManager.swift; sourceTree = "<group>"; };
+		0AA1E7E128912D7C00AC0CE9 /* Secret.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secret.swift; sourceTree = "<group>"; };
+		0AA1E8162891A16B00AC0CE9 /* YoutubeModelAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YoutubeModelAPI.swift; sourceTree = "<group>"; };
+		0AC006382891BFCF00241DFA /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		0ADD3B7E288447B30074C496 /* DancerDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DancerDetailViewController.swift; sourceTree = "<group>"; };
+		0AEF1FF92891BA21000E6E06 /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		97C17C85288738A300A510CA /* MainViewController+GenreCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+GenreCell.swift"; sourceTree = "<group>"; };
 		97C17C872888351A00A510CA /* MainViewController+DancerCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MainViewController+DancerCell.swift"; sourceTree = "<group>"; };
 		A31C3F4328828B96005A6F6E /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
@@ -125,6 +135,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0AC0063A2891C0E300241DFA /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				C05BF1E2287BC7C800C95E1B /* Constant.swift */,
+				0AA1E7E128912D7C00AC0CE9 /* Secret.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
 		A31C3F452882ABD3005A6F6E /* ReusableComponent */ = {
 			isa = PBXGroup;
 			children = (
@@ -257,7 +276,9 @@
 		C05BF206287BCA9E00C95E1B /* API */ = {
 			isa = PBXGroup;
 			children = (
-				C05BF1E2287BC7C800C95E1B /* Constant.swift */,
+				0AC0063A2891C0E300241DFA /* Helpers */,
+				0AEF1FF92891BA21000E6E06 /* NetworkManager.swift */,
+				0AC006382891BFCF00241DFA /* NetworkError.swift */,
 			);
 			path = API;
 			sourceTree = "<group>";
@@ -275,6 +296,7 @@
 				C08A10B12883BCC1009A38E7 /* MockDataSet.swift */,
 				0AA1E7DD288EE32A00AC0CE9 /* DancerDetailScheduleModel.swift */,
 				0AA1E7DF288EE3F600AC0CE9 /* DancerDetailSchduleManager.swift */,
+				0AA1E8162891A16B00AC0CE9 /* YoutubeModelAPI.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -285,6 +307,7 @@
 				C039DCB9287D940F0007951D /* MainTabController.swift */,
 				0ADD3B7E288447B30074C496 /* DancerDetailViewController.swift */,
 				C04B1F082889257D001D2C99 /* WeeklyScheduleCell.swift */,
+				0A6D547428928013006CAAD2 /* ThumbNailCell.swift */,
 				C039DCBC287D941E0007951D /* Schedule */,
 				C039DCBB287D941C0007951D /* Subscription */,
 				A3F1BE4D2887BB0700EEDB67 /* Search */,
@@ -378,6 +401,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AEF1FFA2891BA21000E6E06 /* NetworkManager.swift in Sources */,
 				0ADD3B7F288447B30074C496 /* DancerDetailViewController.swift in Sources */,
 				C05BF1DD287BC60600C95E1B /* MainViewController.swift in Sources */,
 				0AA1E7DE288EE32A00AC0CE9 /* DancerDetailScheduleModel.swift in Sources */,
@@ -385,6 +409,7 @@
 				C05BF1FA287BC7EF00C95E1B /* UIColor.swift in Sources */,
 				C7CE676028807C8E00C8F137 /* WeekdayCell.swift in Sources */,
 				C039DCBA287D940F0007951D /* MainTabController.swift in Sources */,
+				0AA1E8172891A16B00AC0CE9 /* YoutubeModelAPI.swift in Sources */,
 				C04B1F092889257D001D2C99 /* WeeklyScheduleCell.swift in Sources */,
 				C07E5C8D287E6D8B00BDA46D /* DanceClass.swift in Sources */,
 				B5DB2D66288633E100703587 /* DancerCell.swift in Sources */,
@@ -394,6 +419,7 @@
 				97C17C882888351A00A510CA /* MainViewController+DancerCell.swift in Sources */,
 				97C17C86288738A300A510CA /* MainViewController+GenreCell.swift in Sources */,
 				C05BF203287BC99A00C95E1B /* BaseViewController.swift in Sources */,
+				0A6D547528928013006CAAD2 /* ThumbNailCell.swift in Sources */,
 				C05BF1CB287BC33100C95E1B /* SceneDelegate.swift in Sources */,
 				C05BF209287BCAD900C95E1B /* Dancer.swift in Sources */,
 				C039DCBE287D944C0007951D /* ScheduleViewController.swift in Sources */,
@@ -415,9 +441,11 @@
 				C7CE676228814D3C00C8F137 /* Weekday.swift in Sources */,
 				A37F02C7288842640027D3FC /* SearchDetailCell.swift in Sources */,
 				A3F1480D28882CA90025B822 /* UIImageView.swift in Sources */,
+				0AA1E7E228912D7C00AC0CE9 /* Secret.swift in Sources */,
 				C039DCC0287D94630007951D /* SubscriptionViewController.swift in Sources */,
 				C05BF1F6287BC7EF00C95E1B /* UIApplication.swift in Sources */,
 				C05BF1F9287BC7EF00C95E1B /* Date.swift in Sources */,
+				0AC006392891BFCF00241DFA /* NetworkError.swift in Sources */,
 				A38A4C59287E97CF00614E94 /* SearchDetailViewController.swift in Sources */,
 				A35DE3A128840A2E00A29BA7 /* HistoryCell.swift in Sources */,
 				C05BF1F5287BC7EF00C95E1B /* UIButton.swift in Sources */,

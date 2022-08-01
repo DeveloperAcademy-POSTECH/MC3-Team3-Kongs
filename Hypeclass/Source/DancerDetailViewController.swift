@@ -16,6 +16,9 @@ class DancerDetailViewController: BaseViewController {
     var dancerScheduleArray: [DancerDetailScheduleModel] = []
     var dancerDataManager = DancerDetailSchduleManager()
     
+    var networkManager = NetworkManager()
+    var thumbnailArrays: [Item] = []
+    
     let dancerDetailScrollView: UIScrollView! = UIScrollView()
     let dancerDetailContentView: UIView! = UIView()
 
@@ -107,7 +110,7 @@ class DancerDetailViewController: BaseViewController {
         cv.layer.cornerRadius = 10
         cv.register(WeeklyScheduleCell.self, forCellWithReuseIdentifier: weekCellID)
         cv.dataSource = self
-        cv.delegate = self
+//        cv.delegate = self
         cv.translatesAutoresizingMaskIntoConstraints = false
         return cv
     }()
@@ -128,39 +131,49 @@ class DancerDetailViewController: BaseViewController {
         return label
     }()
     
-    private lazy var mockUpThumNail: UIImageView = {
-        let imageView = UIImageView()
-        let dancerProfileImage: UIImage = UIImage(systemName: "person")!
-        imageView.image = dancerProfileImage
-        imageView.contentMode = .scaleAspectFit
-        imageView.translatesAutoresizingMaskIntoConstraints = false
-        return imageView
+    private lazy var thumbNailCollectionView: UICollectionView = {
+        let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        layout.minimumLineSpacing = 25
+        let cellWidth = (Device.width - (25 + layout.minimumLineSpacing)) * 0.8
+        layout.estimatedItemSize = CGSize(width: cellWidth, height: cellWidth * 1)
+//        layout.itemSize = CGSize(width: cellWidth, height: cellWidth * 0.8)
+//        self.thumbNailCollectionView.collectionViewLayout = layout
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        cv.contentInset = UIEdgeInsets(top: 0, left: 25, bottom: 0, right: 90)
+        cv.backgroundColor = .clear
+        cv.register(ThumbNailCell.self, forCellWithReuseIdentifier: thumbNailID)
+        cv.dataSource = self
+//        cv.delegate = self
+        cv.translatesAutoresizingMaskIntoConstraints = false
+        return cv
     }()
     
-    private lazy var introduceContentLabel: UILabel = {
-        let label = UILabel()
-        label.text = "댄서 소개"
-        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
-        label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    let ment = """
-        안녕하세요. 10년차 댄서로 활동중인 WOOTAE 입니다!
-    """
-    
-    private lazy var introduceContent: UILabel = {
-        let label = UILabel()
-        label.text = ment
-        label.numberOfLines = 0
-        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
-        label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
+//    private lazy var introduceContentLabel: UILabel = {
+//        let label = UILabel()
+//        label.text = "댄서 소개"
+//        label.font = UIFont.systemFont(ofSize: 18, weight: .semibold)
+//        label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        return label
+//    }()
+//
+//    let ment = """
+//        안녕하세요. 10년차 댄서로 활동중인 WOOTAE 입니다!
+//    """
+//
+//    private lazy var introduceContent: UILabel = {
+//        let label = UILabel()
+//        label.text = ment
+//        label.numberOfLines = 0
+//        label.font = UIFont.systemFont(ofSize: 14, weight: .medium)
+//        label.textColor = #colorLiteral(red: 1, green: 1, blue: 1, alpha: 1)
+//        label.translatesAutoresizingMaskIntoConstraints = false
+//        return label
+//    }()
         
     private let weekCellID = "week"
+    private let thumbNailID = "thumNail"
     
     private var selectedDate = Date()
     
@@ -169,8 +182,10 @@ class DancerDetailViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
-        setupDatas()
+        setupScheduleDatas()
+        setupNetworkDatas()
     }
+
     //MARK: - Selectors
     
     @objc func instaImageTapped(_ sender: UITapGestureRecognizer) {
@@ -187,9 +202,28 @@ class DancerDetailViewController: BaseViewController {
     
     //MARK: - Helpers
     
-    func setupDatas() {
+    func setupScheduleDatas() {
         dancerDataManager.makeDancerData()
         dancerScheduleArray = dancerDataManager.fetchScheduleData()
+    }
+    
+    func setupNetworkDatas() {
+        networkManager.fetchYoutubeData { result in
+            switch result {
+            case Result.success(let thumbNailData):
+                print("데이터를 제대로 받았음")
+                self.thumbnailArrays = thumbNailData
+                DispatchQueue.main.async {
+                    self.thumbNailCollectionView.reloadData()
+                }
+            case Result.failure(let error):
+                print(error.localizedDescription)
+                DispatchQueue.main.async {
+                    self.thumbNailCollectionView.isHidden = true
+                    self.videoContentLabel.isHidden = true
+                }
+            }
+        }
     }
     
     func configureUI() {
@@ -259,54 +293,66 @@ class DancerDetailViewController: BaseViewController {
         separatorLine.heightAnchor.constraint(equalToConstant: 1).isActive = true
             
         dancerDetailContentView.addSubview(videoContentLabel)
-        videoContentLabel.leadingAnchor.constraint(equalTo: scheduleContentLabel.leadingAnchor, constant: 0).isActive = true
+        videoContentLabel.leadingAnchor.constraint(equalTo: scheduleContentLabel.leadingAnchor).isActive = true
         videoContentLabel.topAnchor.constraint(equalTo: scheduleCollectionView.bottomAnchor, constant: 25).isActive = true
             
-        dancerDetailContentView.addSubview(mockUpThumNail)
-        mockUpThumNail.leadingAnchor.constraint(equalTo: videoContentLabel.leadingAnchor, constant: 0).isActive = true
-        mockUpThumNail.topAnchor.constraint(equalTo: videoContentLabel.bottomAnchor, constant: 10).isActive = true
+        dancerDetailContentView.addSubview(thumbNailCollectionView)
+        thumbNailCollectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        thumbNailCollectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        thumbNailCollectionView.topAnchor.constraint(equalTo: videoContentLabel.bottomAnchor, constant: 10).isActive = true
+        thumbNailCollectionView.heightAnchor.constraint(equalToConstant: 220).isActive = true
             
-        dancerDetailContentView.addSubview(introduceContentLabel)
-        introduceContentLabel.leadingAnchor.constraint(equalTo: mockUpThumNail.leadingAnchor, constant: 0).isActive = true
-        introduceContentLabel.topAnchor.constraint(equalTo: mockUpThumNail.bottomAnchor, constant: 25).isActive = true
-            
-        dancerDetailContentView.addSubview(introduceContent)
-        introduceContent.leadingAnchor.constraint(equalTo: introduceContentLabel.leadingAnchor, constant: 0).isActive = true
-        introduceContent.topAnchor.constraint(equalTo: introduceContentLabel.bottomAnchor, constant: 25).isActive = true
+//        dancerDetailContentView.addSubview(introduceContentLabel)
+//        introduceContentLabel.leadingAnchor.constraint(equalTo: thumbNailCollectionView.leadingAnchor, constant: 0).isActive = true
+//        introduceContentLabel.topAnchor.constraint(equalTo: thumbNailCollectionView.bottomAnchor, constant: 25).isActive = true
+//            
+//        dancerDetailContentView.addSubview(introduceContent)
+//        introduceContent.leadingAnchor.constraint(equalTo: introduceContentLabel.leadingAnchor, constant: 0).isActive = true
+//        introduceContent.topAnchor.constraint(equalTo: introduceContentLabel.bottomAnchor, constant: 25).isActive = true
     }
 }
 
 extension DancerDetailViewController: UICollectionViewDataSource {
     func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 7
+        if collectionView == self.scheduleCollectionView {
+            return 7
+        } else {
+            return 1
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 1
+        if collectionView == self.scheduleCollectionView {
+            return 1
+        } else {
+            return thumbnailArrays.count
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        if indexPath.row == 0 {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: weekCellID, for: indexPath) as! WeeklyScheduleCell
-            cell.weekdayLabel.text = Weekday.allCases[indexPath.section].rawValue
-            cell.dayLabel.text = cell.dayString(date: selectedDate, dayNum: indexPath.section)
-            cell.studioLabel.text = dancerScheduleArray[indexPath.row].studioLabel
-            cell.startTimeLabel.text = dancerScheduleArray[indexPath.row].startTimeLabel
-            cell.endTimeLabel.text = dancerScheduleArray[indexPath.row].endTimeLabel
+        if collectionView == self.scheduleCollectionView {
+            if indexPath.row == 0 {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: weekCellID, for: indexPath) as! WeeklyScheduleCell
+                cell.weekdayLabel.text = Weekday.allCases[indexPath.section].rawValue
+                cell.dayLabel.text = cell.dayString(date: selectedDate, dayNum: indexPath.section)
+                cell.studioLabel.text = dancerScheduleArray[indexPath.row].studioLabel
+                cell.startTimeLabel.text = dancerScheduleArray[indexPath.row].startTimeLabel
+                cell.endTimeLabel.text = dancerScheduleArray[indexPath.row].endTimeLabel
+                return cell
+            } else {
+                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: weekCellID, for: indexPath) as! WeeklyScheduleCell
+                cell.backgroundColor = .purple
+                return cell
+            }
+        } else if collectionView == self.thumbNailCollectionView {
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: thumbNailID, for: indexPath) as! ThumbNailCell
+            cell.imageUrl = thumbnailArrays[indexPath.row].snippet.thumbnails.high.url
+            cell.youtubeTitle.text = thumbnailArrays[indexPath.row].snippet.title
+            cell.backgroundColor = .clear
             return cell
         } else {
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: weekCellID, for: indexPath) as! WeeklyScheduleCell
-            cell.backgroundColor = .purple
-            return cell
+            return UICollectionViewCell()
         }
-    }
-}
-
-extension DancerDetailViewController: UICollectionViewDelegateFlowLayout {
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let estimateHeight = collectionView.frame.height * 0.3
-        let estimateWidth = (collectionView.frame.width * 0.15)
-        return CGSize(width: estimateWidth, height: estimateHeight)
     }
 }
 
