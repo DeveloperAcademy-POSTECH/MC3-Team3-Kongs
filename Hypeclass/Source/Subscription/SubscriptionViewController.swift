@@ -29,7 +29,7 @@ class SubscriptionViewController: BaseViewController{
     private let studioTabButton: UIButton = {
         var button = UIButton()
         button.setTitle("스튜디오", for: .normal)
-        button.setTitleColor(UIColor.white, for: .normal)
+        button.setTitleColor(UIColor.gray, for: .normal)
         button.tag = 1
         button.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
         return button
@@ -42,8 +42,7 @@ class SubscriptionViewController: BaseViewController{
         sep.backgroundColor = .white
         return sep
     }()
-    
-//    private var isDancerTab = true
+
     private var selectedTab = 0
     
     private let cellID = "subscription"
@@ -77,16 +76,20 @@ class SubscriptionViewController: BaseViewController{
                 UIView.animate(withDuration: 0.3) {
                     self.tabIndicator.frame.origin.x = 0
                 }
+                dancerTabButton.setTitleColor(UIColor.white, for: .normal)
+                studioTabButton.setTitleColor(UIColor.gray, for: .normal)
                 selectedTab = sender.tag
                 tableView.reloadData()
             case 1:
                 UIView.animate(withDuration: 0.3) {
                     self.tabIndicator.frame.origin.x = Device.width / 2
                 }
+                studioTabButton.setTitleColor(UIColor.white, for: .normal)
+                dancerTabButton.setTitleColor(UIColor.gray, for: .normal)
                 selectedTab = sender.tag
                 tableView.reloadData()
             default:
-                print("default")
+                return
             }
         }
     }
@@ -228,7 +231,7 @@ extension SubscriptionViewController: UITableViewDelegate, UITableViewDataSource
             // TODO: 스튜디오 디테일 페이지로 이동, 스튜디오 ID 넘기기
             print("Move to studio detail")
         default:
-            print("default")
+            return
         }
     }
     
@@ -246,7 +249,7 @@ extension SubscriptionViewController: UITableViewDelegate, UITableViewDataSource
                 // TODO: UserDefault에 변경사항 반영
                 tableView.deleteRows(at: [indexPath], with: .fade)
             default:
-                print("default")
+                return
             }
         }
     }
