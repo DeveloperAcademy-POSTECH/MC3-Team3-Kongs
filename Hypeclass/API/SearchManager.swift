@@ -9,36 +9,36 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
+enum FirebaseQuery: String {
+    case genres
+    case name
+}
+
+enum FirebaseCategory: String {
+    case studio
+    case dancer
+}
+
 class SearchManager {
     static let shared = SearchManager()
     
-    func requestSearchDancer(queryString query: String) async throws -> [Dancer]? {
-        let snapshot = try await Constant.dancerRef.whereField("name", isGreaterThanOrEqualTo: query).getDocuments()
+    func requestQuery<T: Codable>(queryString query: String, mode: FirebaseQuery, category: FirebaseCategory) async throws -> [T]? {
+        var snapshot: QuerySnapshot
         
-        let searchDancer = snapshot.documents.compactMap { document in
-            try? document.data(as: Dancer.self)
+        switch mode {
+        case .name:
+            if category == FirebaseCategory.dancer {
+                snapshot = try await Constant.dancerRef.whereField(mode.rawValue, isEqualTo: query).getDocuments()
+            } else {
+                snapshot = try await Constant.studioRef.whereField(mode.rawValue, isEqualTo: query).getDocuments()
+            }
+        case .genres:
+            snapshot = try await Constant.dancerRef.whereField(mode.rawValue, arrayContains: query).getDocuments()
         }
         
-        return searchDancer
-    }
-    
-    func requestSearchStudio(queryString query: String) async throws -> [Studio]? {
-        let snapshot = try await Constant.studioRef.whereField("name", isGreaterThanOrEqualTo: query).getDocuments()
-        
-        let searchStudio =  snapshot.documents.compactMap { document in
-            try? document.data(as: Studio.self)
+        let result = snapshot.documents.compactMap { document in
+            try? document.data(as: T.self)
         }
-        
-        return searchStudio
-    }
-    
-    func requestSearchGenre(queryString query: String) async throws -> [Dancer]? {
-        let snapshot = try await Constant.dancerRef.whereField("genres", arrayContains: query).getDocuments()
-        
-        let searchGenre = snapshot.documents.compactMap { document in
-            try? document.data(as: Dancer.self)
-        }
-        
-        return searchGenre
+        return result
     }
 }

@@ -36,7 +36,9 @@ class SearchDetailViewController: BaseViewController {
         return table
     }()
     
-    var searchResult: [Dancer] = []
+    var searchStudio: [Studio]?
+    var searchDancer: [Dancer]?
+    var searchGenre: [Dancer]?
     
     //MARK: - LifeCycle
     
@@ -50,8 +52,8 @@ class SearchDetailViewController: BaseViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        searchResult = MockDataSet.dancers.filter { dancer in
-            dancer.name!.lowercased().contains(searchLabel.text?.lowercased() ?? "")
+        Task {
+            await requestSearch()
         }
     }
     
@@ -87,10 +89,43 @@ class SearchDetailViewController: BaseViewController {
         dancerTable.dataSource = self
         dancerTable.register(SearchDetailCell.self, forCellReuseIdentifier: SearchDetailCell.dancerCellID)
     }
+    
+    private func requestSearch() async {
+        do {
+            if searchStudio == nil && searchDancer == nil {
+                IndicatorView.shared.show()
+                IndicatorView.shared.showIndicator()
+                async let searchStudio: [Studio]? = SearchManager.shared.requestQuery(queryString: searchLabel.text ?? "", mode: .name, category: .studio)
+                async let searchDancer: [Dancer]? = try await SearchManager.shared.requestQuery(queryString: searchLabel.text ?? "", mode: .name, category: .dancer)
+                async let searchGenre: [Dancer]? = try await SearchManager.shared.requestQuery(queryString: searchLabel.text ?? "", mode: .genres, category: .dancer)
+                let searchResult: [Any]? = try await [searchStudio, searchDancer, searchGenre]
+                IndicatorView.shared.dismiss()
+                
+                self.searchStudio = searchResult?[0] as! [Studio]?
+                self.searchDancer = searchResult?[1] as! [Dancer]?
+                self.searchGenre = searchResult?[2] as! [Dancer]?
+            }
+            dancerTable.reloadData()
+        }
+        catch {
+            print(error)
+        }
+    }
+    
+    func fetchCell(cell: SearchDetailCell, index: Int, queryArray: [Any]?) {
+        if let dancer = queryArray as? [Dancer] {
+            cell.nameLabel.text = dancer[index].name
+            cell.genreLabel.text = dancer[index].description
+            cell.classdayLabel.text = dancer[index].id
+        } else if let studio = queryArray as? [Studio] {
+            cell.nameLabel.text = studio[index].name
+            cell.genreLabel.text = studio[index].description
+            cell.classdayLabel.text = studio[index].id
+        }
+    }
 }
 
 //MARK: - TableView Extension
-
 extension SearchDetailViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return 116
@@ -105,19 +140,23 @@ extension SearchDetailViewController: UITableViewDelegate {
 
 extension SearchDetailViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return searchResult.count
+        return (searchDancer?.count ?? 0) + (searchStudio?.count ?? 0) + (searchGenre?.count ?? 0)
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = dancerTable.dequeueReusableCell(withIdentifier: SearchDetailCell.dancerCellID, for:indexPath) as! SearchDetailCell
-//        cell.profileImage.load(url: URL(string: searchResult[indexPath.row].profileImageURL)!)
+        //        cell.profileImage.load(url: URL(string: searchResult[indexPath.row].profileImageURL)!)
+        
+        if !(searchDancer?.isEmpty)! {
+            fetchCell(cell: cell, index: indexPath.row, queryArray: searchDancer)
+        } else if !(searchStudio?.isEmpty)! {
+            fetchCell(cell: cell, index: indexPath.row, queryArray: searchStudio)
+        } else {
+            fetchCell(cell: cell, index: indexPath.row, queryArray: searchGenre)
+        }
         
         // Mock데이터에 있는 이미지 링크의 이미지를 불러오지 못함 임시 이미지 링크를 첨부합니다.
         cell.profileImage.load(url: URL(string: "https://src.hidoc.co.kr/image/lib/2021/4/28/1619598179113_0.jpg")!)
-        
-        cell.nameLabel.text = searchResult[indexPath.row].name
-        cell.genreLabel.text =  "방송 댄스"
-        cell.classdayLabel.text = "화, 수, 목"
         cell.backgroundColor = .clear
         
         return cell

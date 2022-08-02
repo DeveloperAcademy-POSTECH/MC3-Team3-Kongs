@@ -84,13 +84,43 @@ class ScheduleViewController: BaseViewController {
         return cv
     }()
     
-    private let subscriptionIDs = UserDefaults.standard.stringArray(forKey: "SubscribedDancers") ?? ["CDF787F4-5AD7-4138-AE13-F96DEF538E0D", "2EB613FC-956E-482F-80C1-DAC47C543729", "F77D3855-2CE5-468D-B702-8C9AA521461B"]
+//    private let subscriptionIDs = UserDefaults.standard.stringArray(forKey: "SubscribedDancers") ?? ["CDF787F4-5AD7-4138-AE13-F96DEF538E0D", "2EB613FC-956E-482F-80C1-DAC47C543729", "F77D3855-2CE5-468D-B702-8C9AA521461B"]
+    private let subscriptionIDs: [String] = []
     
     private var weekSchedules: [[DanceClass]] = [
         [], [], [], [], [], [], []
     ]
     
     private var scheduleViewWidth: CGFloat = 0
+    
+    private let goToSubscribeView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.spacing = 10
+        stackView.distribution = .equalSpacing
+        stackView.isUserInteractionEnabled = true
+        stackView.alignment = .center
+        
+        return stackView
+    }()
+    
+    private let noSubscriptionLabel: UILabel = {
+        let label = UILabel()
+        label.text = "앗! 구독한 댄서가 없어요 😢"
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 14.0, weight: .thin)
+        return label
+    }()
+    
+    private let goSubscribeLabel: UILabel = {
+        let label = UILabel()
+        let attributedString = NSMutableAttributedString.init(string: "첫 댄서 구독하러 가기")
+        attributedString.addAttribute(NSAttributedString.Key.underlineStyle, value: 1, range: NSRange.init(location: 0, length: attributedString.length))
+        label.attributedText = attributedString
+        label.textColor = .white
+        label.font = .systemFont(ofSize: 14.0, weight: .thin)
+        return label
+    }()
     
     // MARK: - LifeCycle
     
@@ -130,11 +160,16 @@ class ScheduleViewController: BaseViewController {
     
     /// 댄서 디테일 뷰 페이지로 이동합니다.
     @objc func pushDetailView(_ sender: UITapGestureRecognizer) {
-            print("pushDetailView(): \(sender.view!.accessibilityLabel!)")
-            let dancerDetailVC = DancerDetailViewController()
-            guard let dancerID = sender.view?.accessibilityLabel else { return }
-            dancerDetailVC.dancerID = dancerID
-            self.navigationController?.pushViewController(dancerDetailVC, animated: true)
+        print("pushDetailView(): \(sender.view!.accessibilityLabel!)")
+        let dancerDetailVC = DancerDetailViewController()
+        guard let dancerID = sender.view?.accessibilityLabel else { return }
+        dancerDetailVC.dancerID = dancerID
+        self.navigationController?.pushViewController(dancerDetailVC, animated: true)
+    }
+    
+    @objc func pushMainView() {
+        // TODO: 어느 뷰로 갈지 정하기
+        self.navigationController?.pushViewController(MainViewController(), animated: true)
     }
     
     // MARK: - Helpers
@@ -195,6 +230,18 @@ class ScheduleViewController: BaseViewController {
         scheduleCollectionView.leadingAnchor.constraint(equalTo: separator.trailingAnchor, constant: 1).isActive = true
         scheduleCollectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -130).isActive = true
         scheduleCollectionView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor).isActive = true
+        
+        // goToSubscribeView(구독한 댄서가 없을 때)
+        if subscriptionIDs.count <= 0 {
+            goToSubscribeView.addArrangedSubview(noSubscriptionLabel)
+            goToSubscribeView.addArrangedSubview(goSubscribeLabel)
+            
+            view.addSubview(goToSubscribeView)
+            goToSubscribeView.translatesAutoresizingMaskIntoConstraints = false
+            goToSubscribeView.centerXAnchor.constraint(equalTo: scheduleCollectionView.centerXAnchor).isActive = true
+            goToSubscribeView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+            goToSubscribeView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(pushMainView)))
+        }
     }
     
     /// 클래스 데이터를 이용해 StackView에 각각 해당하는 ScheduleView를 추가합니다.
@@ -245,6 +292,9 @@ class ScheduleViewController: BaseViewController {
     
     /// 날짜에 맞는 DanceClass를 각각 배열에 넣어줍니다.
     private func fetchSchedules() async {
+        if subscriptionIDs.count <= 0 {
+            return
+        }
         let monday = selectedDate.mondayInWeek(at: selectedDate.get(.weekday))
         let cal = Calendar.current
         

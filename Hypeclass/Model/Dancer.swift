@@ -20,6 +20,7 @@ struct Dancer: Codable {
     let studios: [String]?
     let youtubeURL: [String]?
     let instagramURL: String?
+    let likes: Int?
 }
 
 /*
